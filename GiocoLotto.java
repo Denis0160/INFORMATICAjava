@@ -2,20 +2,26 @@ import java.util.Scanner;
 import java.util.Random;
 public class GiocoLotto {
     public static void main(String[] Args) {
+        //variable declaration
         int scelta,dim=0;
-        double puntata1=0, puntata2=0, puntata3=0, puntata4=0, puntata5=0;
+        double puntata1, puntata2, puntata3, puntata4, puntata5;
         boolean s1=false,s2=false,s3=false,s4=false,s5=false;
         int cont1=0,cont2,cont3,cont4,cont5;
-        int sceltapuntata=0;
-        int[] NumUtente=new int[5];
+        int sceltapuntata=0,dimU=0;
+
         Scanner tastiera = new Scanner(System.in);
 
+        //menu option
         System.out.println("=== Gioco Lotto === \nSu quante ruote vuoi giocare?\n");
         String[] opzioni = {"[1] Una ruota",
                             "[2] Dieci ruote",
                             "[3] Esci",};
         scelta = Menu(opzioni, tastiera);
 
+
+        /*if the users chooses to play on one wheel, then the size of the array
+        becomes five, if he chooses to play on ten wheels it becomes 50
+        */
         switch(scelta){
             case 1:{
                 dim=5;
@@ -26,16 +32,26 @@ public class GiocoLotto {
                 break;
             }
         }
+
+
         int[] ruotaN=new int[dim];
         for(int i=0;i< ruotaN.length;i++) {
             ruotaN[i] = numRand(1, 90);
             System.out.println(ruotaN[i]);
         }
-
+        System.out.println("quanti numeri vuoi inserire? da 1 a 5");
+        do{
+            dimU = tastiera.nextInt();
+        }while(dimU<1 || dimU>5);
+        int[] NumUtente=new int[dimU];
         System.out.println("Gioca i numeri");
-        for(int i=0;i<5;i++){
-            NumUtente[i]=tastiera.nextInt();
-            System.out.println(NumUtente[i]);
+        for(int i=0;i<NumUtente.length;i++){
+            do {
+                NumUtente[i] = tastiera.nextInt();
+                if(NumUtente[i]<1 || NumUtente[i]>90){
+                    System.out.println("Hai inserito un valore errato!!");
+                }
+            }while(NumUtente[i]<1 || NumUtente[i]>90);
         }
         do{
             System.out.println("----Scegli su cosa puntare----");
@@ -118,6 +134,7 @@ public class GiocoLotto {
                         }while(puntata5<0.50 || puntata5>200);
                     }
                     else if(s5)
+
                     {
                         System.out.println("Hai Gia scelto cinquina");
                     }
@@ -126,14 +143,23 @@ public class GiocoLotto {
             }
         }while(sceltapuntata!=6);
 
-        for (int i = 0; i < NumUtente.length; i++) {
-            for (int k = 0; k < ruotaN.length; k++) {
-                if (NumUtente[i] == ruotaN[k]) {
-                    cont1++;
+            for (int i = 0; i < NumUtente.length; i++) {
+                 for (int k = 0; k < ruotaN.length; k++) {
+                     if (NumUtente[i] == ruotaN[k]) {
+                            cont1++;
+                        }
+                    }
                 }
+            System.out.println("singoli fatti:"+cont1);
+            if(s2){
+                cont2=getFactorial(cont1);
+                System.out.println("Ambo fatti:"+cont2);
             }
-        }
-        System.out.println("------------------"+cont1);
+            else if(s3){
+                cont3=getFactorial(cont1);
+                System.out.println("terni fatti:"+cont3);
+            }
+
 
     }
 
@@ -186,6 +212,13 @@ public class GiocoLotto {
         }
     }
 
+    public static int getFactorial(int cont1) {
+        int result = 1;
+        for (int i = 1; i <= cont1; i++) {
+            result = result * i; // finding factorial of number using loops
+        }
+        return result;
+    }
 
 
 
