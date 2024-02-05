@@ -22,7 +22,7 @@ public class GiocoLotto {
             //menu option
             System.out.println("=== Gioco Lotto === \nSu quante ruote vuoi giocare?\n");
             String[] opzioni = {"[1] Una ruota",
-                    "[2] Dieci ruote",};
+                    "[2] Dieci ruote",""};
             scelta = Menu(opzioni, tastiera);
 
             switch (scelta) {
