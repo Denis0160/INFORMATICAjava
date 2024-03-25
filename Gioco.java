@@ -1,14 +1,14 @@
-package Gioco;
-
-
 import java.util.Scanner;
+import Menu.MetodoMenu;
 
-public class Gioco {
+public class GiocoFiammiferi {
 
     public static void main(String[] Args){
         Scanner scanner=new Scanner(System.in);
-         int giocatoreUno=0, giocatoreDue=0, fiammiferi=4;
-         int gUno=0, gDue=0;
+        
+        
+        int giocatoreUno=0, giocatoreDue=0, fiammiferi=4;
+        
         String errore="errore!!! il numero supera 3\n";
 
         System.out.println("-------------------------------------\n");
@@ -22,7 +22,7 @@ public class Gioco {
         System.out.println("| | | | | | | | | | | | | | | | | | | | |\n");
         System.out.println("\n");
 
-       while(fiammiferi>0){
+        while(fiammiferi>0){
             System.out.println("Giocatore uno inserisci il numero di fiammiferi che vuoi togliere:\n");
             giocatoreUno=scanner.nextInt();
             try {
@@ -34,9 +34,12 @@ public class Gioco {
             }
 
             fiammiferi = fiammiferi - giocatoreUno;
-            gUno++;
-            if(fiammiferi<=0)
+
+            if(fiammiferi<=0){
+                System.out.println("Ha vinto il giocatore 1");
                 break;
+            }
+
 
             Wait();
             ClrScr();
@@ -54,30 +57,17 @@ public class Gioco {
             }
 
             fiammiferi = fiammiferi - giocatoreDue;
-            if(fiammiferi<=0)
+
+            if(fiammiferi<=0) {
+                System.out.println("Ha vinto il giocatore 2");
                 break;
+            }
+
         }
 
-        if(gUno<gDue){
-            System.out.println("Ha vinto il giocatore Uno\n");
-        }else if(gUno>gDue){
-            System.out.println("Ha vinto il giocatore Due\n");
-        }
 
     }
-    public static void ClrScr(){
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+   
 
-    public static void Wait() {
-        try{
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+    
 }
