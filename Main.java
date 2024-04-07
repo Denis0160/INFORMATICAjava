@@ -1,56 +1,96 @@
+import static tools.Utility.*;
 
 import java.util.Scanner;
 public class Main {
-    private static void main(String[] Args){
-        /*
-        Scrivere un programma DueSequenze che lette da input due sequenze di
-stringhe, ciascuna di 5 elementi, stampa il messaggio "OK" se almeno una stringa
-della prima sequenza compare anche nella seconda, altrimenti stampa il messaggio
-"NO".
-Bonus: utilizzare un metodo per inserire i dati all’interno dei vettori di
-stringhe e, nel caso in cui le due sequenze abbiano almeno una stringa in
-comune, interrompere i confronti.
-         */
+    public static void main(String[] args) {
+        String[] operazioni = {"VODAFONE",
+                "[1] Inserimento",
+                "[2] Visualizzazione",
+                "[3] Ricerca",
+                "[4] Fine"};
+        boolean Sitel=true;
+        final int nMax = 3;
+        int contrattiVenduti = 0;
+        Contatto[] gestore = new Contatto[nMax];
 
-        Scanner tastiera=new Scanner(System.in);
+        Scanner keyboard = new Scanner(System.in);
 
-        String[] prima=new String[5];
-        String[] seconda=new String[prima.length];
+        boolean fine = true;
+        do {
+            switch (menu(operazioni, keyboard)) {
+                case 1:
 
-        for(int i=0;i<prima.length;i++){
-            prima[i]=tastiera.nextLine();
+                    if (contrattiVenduti < nMax) {
+                        //firma contratto
+                        gestore[contrattiVenduti]=leggiPersona(Sitel,keyboard,contrattiVenduti,gestore);
+                        contrattiVenduti++;
+                    } else {
+                        System.out.println("Non ci sono più contratti da vendere");
+                    }
+                    break;
+                case 2: {
+                    visualizza(gestore, contrattiVenduti);
+                    break;
+                }
+
+                case 3: {
+                    break;
+                }
+
+                default:
+                    fine = false;
+                    break;
+            }
+        } while (fine);
+    }
+    private static void visualizza(Contatto [] gestore, int contrattiVenduti){
+
+        for(int i=0 ; i<=contrattiVenduti; i++) {
+            System.out.println(gestore[i]);
+
         }
 
-        for(int i=0;i<prima.length;i++){
-            seconda[i]=tastiera.nextLine();
-        }
+    }
+    private static Contatto leggiPersona(boolean Sitel, Scanner keyboard, int contrattiVenduti, Contatto[] gestore ) {
 
-        Boolean[] controllo=new Boolean[prima.length];
-        int cont=0;
+        //Sitel è true quando dobbiamo leggere
+        String[] tipoC = {"Telefono","1]abitazione", "2]cellulare", "3]aziendale"};
 
-        for(int i=0;i< prima.length;i++){
-            controllo[i]=false;
-        }
+        //Istanziato un oggetto di tipo contatto:
+        Contatto persona = new Contatto();
+        boolean esistente;
+        do {
+            esistente=false;
+            System.out.println("\nInserisci il nome: ");
+             String nome = keyboard.nextLine();
 
-        for(int i=0;i< prima.length;i++){
-            for(int j=0;j<seconda.length;i++){
-
-                if(prima[i]==seconda[j]){
-                    controllo[i]=true;
-                    cont++;
+            for (int i = 0; i < contrattiVenduti; i++) {
+                if (gestore[i].nome.equalsIgnoreCase(nome)) {
+                    System.out.println("Contratto già esistente per questo nome.");
+                    esistente = true;
+                    break;
                 }
             }
-        }
-
-        for(int i=0;i< prima.length;i++){
-            if(controllo[i]){
-                System.out.println("OK\n");
-                return;
+            // Se il nome non è stato trovato nei contratti esistenti, assegna il nome alla persona
+            if (!esistente) {
+                persona.nome=nome;
             }
-            System.out.println("NO\n");
+
+        }while(esistente);
+        System.out.println("\nInserisci il cognome: ");
+        persona.cognome = keyboard.nextLine();
+        System.out.println("\nInserisci il numero di telefono: ");
+        if (Sitel) {
+            persona.telefono = keyboard.nextLine();  //Vado a leggere il numero di telefono
+            //I valori assegnati all'attributo sono compresi nel range
+            switch (menu(tipoC, keyboard)) {
+                case 1 -> persona.tipo = tipoContratto.abitazione;
+                case 2 -> persona.tipo = tipoContratto.cellulare;
+                default -> persona.tipo = tipoContratto.aziendale;
+
+            }
         }
+
+        return persona;
     }
-
-
 }
-
