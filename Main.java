@@ -1,96 +1,79 @@
-import static tools.Utility.*;
-
+import java.util.Random;
 import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        String[] operazioni = {"VODAFONE",
-                "[1] Inserimento",
-                "[2] Visualizzazione",
-                "[3] Ricerca",
-                "[4] Fine"};
-        boolean Sitel=true;
-        final int nMax = 3;
-        int contrattiVenduti = 0;
-        Contatto[] gestore = new Contatto[nMax];
+public class Main{
+    public static void main(String[] Args){
+        String[] nomiPersonaggi =
+                {"Marie Curie",
+                        "Antoine Lavoisier",
+                        "Louis Pasteur",
+                        "Joseph Louis Proust",
+                        "Albert Einstein",
+                        "Nikola Tesla",
+                        "Isaac Newton",
+                        "Galileo Galilei",
+                        "Leonardo Da Vinci",
+                        "Michelangelo Buonarroti",
+                        "Wolfgang Amadeus Mozart",
+                        "Ludwig Van Beethoven",
+                        "George Boole",//
+                        "Blaise Pascal",//
+                        "Pitagora",//
+                        "Leonardo Fibonacci",//
+                        "John von Neumann",//
+                        "Archimede",//
+                        "Charles Darwin",//
+                        "Gustave Eiffel"};
 
-        Scanner keyboard = new Scanner(System.in);
+        String[] domande = {"Ha vinto 2 premii nobel??",
+                "Ha scoperto il ruolo dell'ossigeno nella combustione?",
+                "Ha scoperto il vaccino per la Rabbia?",
+                "È noto per le leggi delle proporzioni definite?",
+                "Ha formulato la teoria della relatività?",
+                "Ha contribuito allo sviluppo del sistema elettrico a corrente alternata?",
+                "Ha scoperto la legge della gravitazione universale?",
+                "È noto per il suo sostegno all'eliocentrismo?",
+                "È conosciuto per i suoi capolavori artistici come \"La Gioconda\"?",
+                "È stato un celebre scultore e pittore del Rinascimento?",
+                "È stato un compositore prolifico del periodo classico?",
+                "È considerato uno dei più grandi compositori della storia della musica occidentale?\n",//
+                "È considerato il padre dell'algebra booleana?",//
+                "È noto per la sua legge della pressione dei fluidi?\n",//
+                "È famoso per il suo teorema nel campo della geometria?\n",//
+                "È famoso per la sua sequenza numerica, chiamata \"Successione di Fibonacci\"?\n",//
+                "È stato un eminente matematico, fisico, informatico ed economista?",//
+                "È noto per il suo principio che descrive la spinta di un fluido su un corpo immerso?\n",
+                "È famoso per le sue teorie sull'evoluzione biologica?",
+                "È famoso per la progettazione e la costruzione della Torre Eiffel?"};
 
-        boolean fine = true;
-        do {
-            switch (menu(operazioni, keyboard)) {
-                case 1:
 
-                    if (contrattiVenduti < nMax) {
-                        //firma contratto
-                        gestore[contrattiVenduti]=leggiPersona(Sitel,keyboard,contrattiVenduti,gestore);
-                        contrattiVenduti++;
-                    } else {
-                        System.out.println("Non ci sono più contratti da vendere");
-                    }
-                    break;
-                case 2: {
-                    visualizza(gestore, contrattiVenduti);
-                    break;
-                }
+        Random random=new Random();
+        Scanner scanner=new Scanner(System.in);
+        boolean risposta=true;
+        String risposta2;
 
-                case 3: {
-                    break;
-                }
+        System.out.println("Scegli un personaggio tra quelli sotto elencati\n");
 
-                default:
-                    fine = false;
-                    break;
+        for(int i=0;i<nomiPersonaggi.length;i++){
+            System.out.println(nomiPersonaggi[i]);
+        }
+
+        while(risposta) {
+            int indexDomandaCasuale = random.nextInt(domande.length); // Genera un numero casuale compreso tra 0 e la lunghezza del vettore delle domande
+            String domandaCasuale = domande[indexDomandaCasuale]; // Ottiene la domanda corrispondente all'indice casuale generato
+            System.out.println(domandaCasuale + "si/no"); // Stampa la domanda casuale
+            risposta2 = scanner.nextLine();
+            if (risposta2.equalsIgnoreCase("si")) {
+                risposta = false;
+                System.out.println("Il personaggio è: "+nomiPersonaggi[indexDomandaCasuale]);
+
             }
-        } while (fine);
-    }
-    private static void visualizza(Contatto [] gestore, int contrattiVenduti){
-
-        for(int i=0 ; i<=contrattiVenduti; i++) {
-            System.out.println(gestore[i]);
 
         }
 
-    }
-    private static Contatto leggiPersona(boolean Sitel, Scanner keyboard, int contrattiVenduti, Contatto[] gestore ) {
 
-        //Sitel è true quando dobbiamo leggere
-        String[] tipoC = {"Telefono","1]abitazione", "2]cellulare", "3]aziendale"};
 
-        //Istanziato un oggetto di tipo contatto:
-        Contatto persona = new Contatto();
-        boolean esistente;
-        do {
-            esistente=false;
-            System.out.println("\nInserisci il nome: ");
-             String nome = keyboard.nextLine();
 
-            for (int i = 0; i < contrattiVenduti; i++) {
-                if (gestore[i].nome.equalsIgnoreCase(nome)) {
-                    System.out.println("Contratto già esistente per questo nome.");
-                    esistente = true;
-                    break;
-                }
-            }
-            // Se il nome non è stato trovato nei contratti esistenti, assegna il nome alla persona
-            if (!esistente) {
-                persona.nome=nome;
-            }
 
-        }while(esistente);
-        System.out.println("\nInserisci il cognome: ");
-        persona.cognome = keyboard.nextLine();
-        System.out.println("\nInserisci il numero di telefono: ");
-        if (Sitel) {
-            persona.telefono = keyboard.nextLine();  //Vado a leggere il numero di telefono
-            //I valori assegnati all'attributo sono compresi nel range
-            switch (menu(tipoC, keyboard)) {
-                case 1 -> persona.tipo = tipoContratto.abitazione;
-                case 2 -> persona.tipo = tipoContratto.cellulare;
-                default -> persona.tipo = tipoContratto.aziendale;
 
-            }
-        }
-
-        return persona;
     }
 }
