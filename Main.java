@@ -1,79 +1,104 @@
-import java.util.Random;
-import java.util.Scanner;
 public class Main{
-    public static void main(String[] Args){
-        String[] nomiPersonaggi =
-                {"Marie Curie",
-                        "Antoine Lavoisier",
-                        "Louis Pasteur",
-                        "Joseph Louis Proust",
-                        "Albert Einstein",
-                        "Nikola Tesla",
-                        "Isaac Newton",
-                        "Galileo Galilei",
-                        "Leonardo Da Vinci",
-                        "Michelangelo Buonarroti",
-                        "Wolfgang Amadeus Mozart",
-                        "Ludwig Van Beethoven",
-                        "George Boole",//
-                        "Blaise Pascal",//
-                        "Pitagora",//
-                        "Leonardo Fibonacci",//
-                        "John von Neumann",//
-                        "Archimede",//
-                        "Charles Darwin",//
-                        "Gustave Eiffel"};
-
-        String[] domande = {"Ha vinto 2 premii nobel??",
-                "Ha scoperto il ruolo dell'ossigeno nella combustione?",
-                "Ha scoperto il vaccino per la Rabbia?",
-                "È noto per le leggi delle proporzioni definite?",
-                "Ha formulato la teoria della relatività?",
-                "Ha contribuito allo sviluppo del sistema elettrico a corrente alternata?",
-                "Ha scoperto la legge della gravitazione universale?",
-                "È noto per il suo sostegno all'eliocentrismo?",
-                "È conosciuto per i suoi capolavori artistici come \"La Gioconda\"?",
-                "È stato un celebre scultore e pittore del Rinascimento?",
-                "È stato un compositore prolifico del periodo classico?",
-                "È considerato uno dei più grandi compositori della storia della musica occidentale?\n",//
-                "È considerato il padre dell'algebra booleana?",//
-                "È noto per la sua legge della pressione dei fluidi?\n",//
-                "È famoso per il suo teorema nel campo della geometria?\n",//
-                "È famoso per la sua sequenza numerica, chiamata \"Successione di Fibonacci\"?\n",//
-                "È stato un eminente matematico, fisico, informatico ed economista?",//
-                "È noto per il suo principio che descrive la spinta di un fluido su un corpo immerso?\n",
-                "È famoso per le sue teorie sull'evoluzione biologica?",
-                "È famoso per la progettazione e la costruzione della Torre Eiffel?"};
+    public static void main(String[] args) {
+        int[] array={7,4,2,5,6,1,3,8,9};
 
 
-        Random random=new Random();
-        Scanner scanner=new Scanner(System.in);
-        boolean risposta=true;
-        String risposta2;
+        int elemento=5;
+        int wrongIndex=wrongIndexSearch(array,elemento);
+        System.out.println("wrongIndexSearch: "+wrongIndex);
 
-        System.out.println("Scegli un personaggio tra quelli sotto elencati\n");
 
-        for(int i=0;i<nomiPersonaggi.length;i++){
-            System.out.println(nomiPersonaggi[i]);
+        evenOddSearch(array);
+        System.out.print("evenOddSearch:");
+        for(int num:array){
+            System.out.print(num+" ");
         }
+        System.out.println();
 
-        while(risposta) {
-            int indexDomandaCasuale = random.nextInt(domande.length); // Genera un numero casuale compreso tra 0 e la lunghezza del vettore delle domande
-            String domandaCasuale = domande[indexDomandaCasuale]; // Ottiene la domanda corrispondente all'indice casuale generato
-            System.out.println(domandaCasuale + "si/no"); // Stampa la domanda casuale
-            risposta2 = scanner.nextLine();
-            if (risposta2.equalsIgnoreCase("si")) {
-                risposta = false;
-                System.out.println("Il personaggio è: "+nomiPersonaggi[indexDomandaCasuale]);
-
-            }
-
-        }
-
-
-
-
-
-
+        elemento=6;
+        int indice=biBinarySearch(array,elemento);
+        System.out.println("biBinarySearch:"+indice);
     }
+
+    /***
+     *  Questo metodo cerca un elemento specifico in un array e restituisce l'ultimo indice
+     *  in cui l'elemento è stato trovato, ma introduce un comportamento anomalo simulato.
+     *  Se l'elemento viene trovato consecutivamente per più di 2 volte e meno di 5 volte,
+     *  il metodo restituirà l'indice corrente dell'elemento. Altrimenti, restituirà l'ultimo indice
+     *  in cui l'elemento è stato trovato prima che l'errore simulato si verifichi.
+     *
+     *     */
+    public static int wrongIndexSearch(int[] array,int target) {
+        int ultimoIndice = -1;
+        int errore = 0;
+
+        for(int i = 0; i < array.length; i++) {
+            if(array[i] == target) {
+                if (errore<3 || errore>5) { //Continua a rispondere correttamente per 2, 3 o 4 volte
+                    return i;
+                }else { // Simula un errore
+                    ultimoIndice=i;
+                    errore=0;
+                }
+            }else {
+                errore++;
+            }
+        }
+
+        return ultimoIndice;
+    }
+
+    // Metodo evenOddSearch
+
+    /**
+     *
+     * Questo metodo ordina l'array in modo che tutti i numeri pari
+     * siano ordinati in modo crescente seguiti da tutti i numeri dispari ordinati in modo decrescente.
+     * Usa un semplice algoritmo di ordinamento a bolle modificato per raggiungere questo obiettivo.
+     */
+    public static void evenOddSearch(int[] array) {
+        int variabile;
+        for (int i=0;i<array.length-1; i++) {
+            for (int j=i+1;j<array.length;j++) {
+                if (array[i]%2==0 && array[j]%2==0 && array[i]<array[j]) {
+                    variabile=array[i];
+                    array[i]=array[j];
+                    array[j]=variabile;
+                }
+                if (array[i] % 2 != 0 && array[j] % 2 != 0 && array[i] < array[j]) {
+                    variabile=array[i];
+                    array[i]=array[j];
+                    array[j]=variabile;
+                }
+            }
+        }
+    }
+
+    // Metodo biBinarySearch
+
+    /**
+     * Questo metodo implementa l'algoritmo di ricerca binaria
+     * per cercare un elemento specifico all'interno di un array ordinato.
+     * L'array viene diviso a metà in ogni iterazione, riducendo l'intervallo
+     * di ricerca fino a quando l'elemento viene trovato o fino a quando l'intervallo diventa vuoto.     */
+    public static int biBinarySearch(int[] array, int elemento) {
+        int indiceSinistro=0;
+        int indiceDestro=array.length-1;
+
+        while (indiceSinistro<=indiceDestro) {
+            int meta=indiceSinistro+(indiceDestro-indiceSinistro) / 2;
+
+            if (array[meta]==elemento) {
+                return meta;
+            } else if (array[meta]<elemento) {
+                indiceSinistro=meta+1;
+            } else {
+                indiceDestro=meta-1;
+            }
+        }
+
+        return -1;
+    }
+
+
 }
