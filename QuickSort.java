@@ -61,7 +61,6 @@ public class QuickSort {
         array[j]=temp;
     }
 
-    // Metodo per stampare l'array
 
 
 
